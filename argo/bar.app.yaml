@@ -8,7 +8,7 @@ metadata:
 spec:
   project: default
   source:
-    repoURL: https://gitea.com/joao/k8s.git
+    repoURL: https://github.com/joaofnds/k8s.git
     targetRevision: HEAD
     path: bar
     directory:
