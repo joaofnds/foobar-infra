@@ -1,0 +1,18 @@
+apiVersion: argoproj.io/v1alpha1
+kind: Application
+
+metadata:
+  name: foo-app
+  namespace: argocd
+
+spec:
+  project: default
+  source:
+    repoURL: https://gitea.com/joao/k8s.git
+    targetRevision: HEAD
+    path: foo
+    directory:
+      recurse: true
+  destination:
+    server: https://kubernetes.default.svc
+    namespace: foo-prod

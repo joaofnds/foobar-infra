@@ -1,0 +1,30 @@
+apiVersion: apps/v1
+kind: Deployment
+
+metadata:
+  name: bar
+  labels:
+    app: bar
+
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app: bar
+  template:
+    metadata:
+      labels:
+        app: bar
+      annotations:
+        "consul.hashicorp.com/connect-inject": "true"
+        "consul.hashicorp.com/connect-service-upstreams": "foo:81"
+    spec:
+      containers:
+        - name: bar
+          image: joaofnds/bar:1.0.0
+          imagePullPolicy: Always
+          ports:
+            - containerPort: 80
+          env:
+            - name: FOO_SERVICE_URL
+              value: http://localhost:81

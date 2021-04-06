@@ -1,0 +1,38 @@
+apiVersion: apps/v1
+kind: Deployment
+
+metadata:
+  name: foo
+  labels:
+    app: foo
+
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app: foo
+  template:
+    metadata:
+      labels:
+        app: foo
+      annotations:
+        "consul.hashicorp.com/connect-inject": "true"
+        "consul.hashicorp.com/connect-service-upstreams": "postgres-postgresql:5432"
+    spec:
+      containers:
+        - name: foo
+          image: joaofnds/foo
+          imagePullPolicy: Always
+          ports:
+            - containerPort: 80
+          env:
+            - name: POSTGRESQL_USER
+              value: postgres
+            - name: POSTGRESQL_PASSWORD
+              value: postgres
+            - name: POSTGRESQL_HOST
+              value: localhost
+            - name: POSTGRESQL_PORT
+              value: "5432"
+            - name: POSTGRESQL_DATABASE
+              value: foo

@@ -1,0 +1,19 @@
+apiVersion: networking.k8s.io/v1
+kind: Ingress
+
+metadata:
+  name: bar-ingress
+  annotations:
+    ingress.kubernetes.io/rewrite-target: /
+
+spec:
+  rules:
+    - http:
+        paths:
+          - path: "/bar"
+            pathType: Prefix
+            backend:
+              service:
+                name: bar
+                port:
+                  number: 80
