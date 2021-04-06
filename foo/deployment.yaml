@@ -36,15 +36,15 @@ spec:
                 secretKeyRef:
                   name: postgres-secret
                   key: password
-            - name: POSTGRESQL_HOST
-              value: localhost
-            - name: POSTGRESQL_PORT
-              value: "5432"
             - name: POSTGRESQL_DATABASE
               valueFrom:
                 configMapKeyRef:
                   name: postgres-config
                   key: database
+            - name: POSTGRESQL_HOST
+              value: localhost
+            - name: POSTGRESQL_PORT
+              value: "5432"
           resources:
             requests:
               memory: "64Mi"
