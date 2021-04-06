@@ -28,3 +28,10 @@ spec:
           env:
             - name: FOO_SERVICE_URL
               value: http://localhost:81
+          resources:
+            requests:
+              memory: "64Mi"
+              cpu: "50m"
+            limits:
+              memory: "128Mi"
+              cpu: "100m"
