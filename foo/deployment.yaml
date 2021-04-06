@@ -26,16 +26,25 @@ spec:
           ports:
             - containerPort: 80
           env:
-            - name: POSTGRESQL_USER
-              value: postgres
+            - name: POSTGRES_USER
+              valueFrom:
+                secretKeyRef:
+                  name: postgres-secret
+                  key: username
             - name: POSTGRESQL_PASSWORD
-              value: postgres
+              valueFrom:
+                secretKeyRef:
+                  name: postgres-secret
+                  key: password
             - name: POSTGRESQL_HOST
               value: localhost
             - name: POSTGRESQL_PORT
               value: "5432"
             - name: POSTGRESQL_DATABASE
-              value: foo
+              valueFrom:
+                configMapKeyRef:
+                  name: postgres-config
+                  key: database
           resources:
             requests:
               memory: "64Mi"
