@@ -23,33 +23,31 @@ spec:
       annotations:
         "consul.hashicorp.com/connect-inject": "true"
         "consul.hashicorp.com/connect-service-upstreams": "postgres-postgresql:5432"
+        "vault.hashicorp.com/agent-inject": "true"
+        "vault.hashicorp.com/agent-inject-secret-postgres": "foo/postgres"
+        "vault.hashicorp.com/agent-inject-template-postgres": |
+          {{- with secret "foo/postgres" -}}
+          postgres:
+            host: localhost
+            port: 5432
+            username: {{ .Data.data.username }}
+            password: {{ .Data.data.password }}
+            database: foo
+          {{- end }}
+        "vault.hashicorp.com/role": "foo"
     spec:
+      serviceAccountName: foo
       containers:
         - name: foo
-          image: "joaofnds/foo:0.0.4"
+          image: "joaofnds/foo:0.0.5"
           imagePullPolicy: Always
           ports:
             - containerPort: 80
           env:
-            - name: POSTGRESQL_USER
-              valueFrom:
-                secretKeyRef:
-                  name: postgres-secret
-                  key: username
-            - name: POSTGRESQL_PASSWORD
-              valueFrom:
-                secretKeyRef:
-                  name: postgres-secret
-                  key: password
-            - name: POSTGRESQL_DATABASE
-              valueFrom:
-                configMapKeyRef:
-                  name: postgres-config
-                  key: database
-            - name: POSTGRESQL_HOST
-              value: localhost
-            - name: POSTGRESQL_PORT
-              value: "5432"
+            - name: CONFIG_PATH
+              value: "/vault/secrets/"
+            - name: CONFIG_NAME
+              value: postgres
           resources:
             requests:
               memory: "64Mi"
