@@ -26,7 +26,7 @@ spec:
     spec:
       containers:
         - name: foo
-          image: joaofnds/foo
+          image: "joaofnds/foo:0.0.4"
           imagePullPolicy: Always
           ports:
             - containerPort: 80
