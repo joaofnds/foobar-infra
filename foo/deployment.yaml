@@ -24,17 +24,18 @@ spec:
         "consul.hashicorp.com/connect-inject": "true"
         "consul.hashicorp.com/connect-service-upstreams": "postgres-postgresql:5432"
         "vault.hashicorp.com/agent-inject": "true"
-        "vault.hashicorp.com/agent-inject-secret-postgres": "foo/postgres"
-        "vault.hashicorp.com/agent-inject-template-postgres": |
-          {{- with secret "foo/postgres" -}}
+        "vault.hashicorp.com/agent-inject-status": "update"
+        "vault.hashicorp.com/role": "foo"
+        "vault.hashicorp.com/agent-inject-secret-config.yaml": "database/creds/readonly"
+        "vault.hashicorp.com/agent-inject-template-config.yaml": |
+          {{- with secret "database/creds/readonly" -}}
           postgres:
             host: localhost
             port: 5432
-            username: {{ .Data.data.username }}
-            password: {{ .Data.data.password }}
+            username: {{ .Data.username }}
+            password: {{ .Data.password }}
             database: foo
           {{- end }}
-        "vault.hashicorp.com/role": "foo"
     spec:
       serviceAccountName: foo
       containers:
@@ -46,8 +47,6 @@ spec:
           env:
             - name: CONFIG_PATH
               value: "/vault/secrets/"
-            - name: CONFIG_NAME
-              value: postgres
           resources:
             requests:
               memory: "64Mi"
