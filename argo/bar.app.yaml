@@ -8,11 +8,15 @@ metadata:
 spec:
   project: default
   source:
-    repoURL: https://github.com/joaofnds/k8s.git
-    targetRevision: HEAD
+    repoURL: "git@github.com:joaofnds/k8s.git"
     path: bar
+    targetRevision: HEAD
     directory:
       recurse: true
   destination:
-    server: https://kubernetes.default.svc
+    server: "https://kubernetes.default.svc"
     namespace: bar-prod
+  syncPolicy:
+    automated:
+      prune: true
+      selfHeal: true
