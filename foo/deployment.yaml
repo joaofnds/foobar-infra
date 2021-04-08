@@ -26,9 +26,9 @@ spec:
         "vault.hashicorp.com/agent-inject": "true"
         "vault.hashicorp.com/agent-inject-status": "update"
         "vault.hashicorp.com/role": "foo"
-        "vault.hashicorp.com/agent-inject-secret-config.yaml": "database/static-roles/foo"
+        "vault.hashicorp.com/agent-inject-secret-config.yaml": "database/static-creds/foo"
         "vault.hashicorp.com/agent-inject-template-config.yaml": |
-          {{- with secret "database/static-roles/foo" -}}
+          {{- with secret "database/static-creds/foo" -}}
           postgres:
             host: localhost
             port: 5432
