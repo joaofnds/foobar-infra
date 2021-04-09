@@ -40,7 +40,7 @@ spec:
       serviceAccountName: foo
       containers:
         - name: foo
-          image: "joaofnds/foo:0.1.0"
+          image: "joaofnds/foo:0.0.5"
           imagePullPolicy: Always
           ports:
             - containerPort: 80
