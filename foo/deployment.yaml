@@ -20,22 +20,7 @@ spec:
     metadata:
       labels:
         app: foo
-      annotations:
-        "consul.hashicorp.com/connect-inject": "true"
-        "consul.hashicorp.com/connect-service-upstreams": "postgres-postgresql:5432"
-        "vault.hashicorp.com/agent-inject": "true"
-        "vault.hashicorp.com/agent-inject-status": "update"
-        "vault.hashicorp.com/role": "foo"
-        "vault.hashicorp.com/agent-inject-secret-config.yaml": "database/creds/foo"
-        "vault.hashicorp.com/agent-inject-template-config.yaml": |
-          {{- with secret "database/creds/foo" -}}
-          postgres:
-            host: localhost
-            port: 5432
-            username: {{ .Data.username }}
-            password: {{ .Data.password }}
-            database: foo
-          {{- end }}
+      annotations: {}
     spec:
       serviceAccountName: foo
       containers:
@@ -46,7 +31,7 @@ spec:
             - containerPort: 80
           env:
             - name: CONFIG_PATH
-              value: "/vault/secrets/"
+              value: "/etc/config"
           resources:
             requests:
               memory: "64Mi"
@@ -54,3 +39,11 @@ spec:
             limits:
               memory: "128Mi"
               cpu: "100m"
+          volumeMounts:
+            - mountPath: "/etc/config"
+              name: config
+              readOnly: true
+      volumes:
+        - name: config
+          secret:
+            secretName: foo-prod-config
