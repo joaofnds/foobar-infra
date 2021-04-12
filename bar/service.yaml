@@ -5,6 +5,7 @@ metadata:
   name: bar
   labels:
     app: bar
+    service: bar
 
 spec:
   selector:
