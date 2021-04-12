@@ -3,4 +3,4 @@ kind: Namespace
 
 metadata:
   name: bar
-  istio-injection: true
+  istio-injection: enabled
