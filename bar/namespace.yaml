@@ -3,4 +3,5 @@ kind: Namespace
 
 metadata:
   name: bar
-  istio-injection: enabled
+  labels:
+    istio-injection: enabled

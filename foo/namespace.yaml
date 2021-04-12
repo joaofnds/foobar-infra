@@ -3,4 +3,5 @@ kind: Namespace
 
 metadata:
   name: foo
-  istio-injection: enabled
+  labels:
+    istio-injection: enabled
