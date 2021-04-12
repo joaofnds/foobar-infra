@@ -1,0 +1,33 @@
+apiVersion: networking.istio.io/v1alpha3
+kind: Gateway
+metadata:
+  name: foobar-gateway
+spec:
+  selector:
+    istio: ingressgateway # use istio default controller
+  servers:
+    - port:
+        number: 80
+        name: http
+        protocol: HTTP
+      hosts:
+        - "*"
+---
+apiVersion: networking.istio.io/v1alpha3
+kind: VirtualService
+metadata:
+  name: foobar
+spec:
+  hosts:
+    - "*"
+  gateways:
+    - foobar-gateway
+  http:
+    - match:
+        - uri:
+            exact: /bar
+      route:
+        - destination:
+            host: bar
+            port:
+              number: 80

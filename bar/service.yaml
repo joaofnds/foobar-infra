@@ -3,6 +3,8 @@ kind: Service
 
 metadata:
   name: bar
+  labels:
+    app: bar
 
 spec:
   selector:
