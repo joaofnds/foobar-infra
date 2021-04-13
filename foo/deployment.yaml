@@ -45,6 +45,8 @@ spec:
             secretName: foo-prod-config
   strategy:
     canary:
+      canaryService: foo-canary
+      stableService: foo-stable
       trafficRouting:
         istio:
           virtualService:
@@ -53,8 +55,8 @@ spec:
               - primary
           destinationRule:
             name: foo
-            stableSubsetName: stable
             canarySubsetName: canary
+            stableSubsetName: stable
       steps:
         - setWeight: 20
         - pause: {}
