@@ -45,6 +45,16 @@ spec:
             secretName: foo-prod-config
   strategy:
     canary:
+      stableMetadata:
+        labels:
+          version: stable
+      canaryMetadata:
+        labels:
+          version: canary
+      analysis:
+        startingStep: 2
+        templates:
+          - templateName: success-rate
       trafficRouting:
         istio:
           virtualService:
@@ -56,14 +66,17 @@ spec:
             stableSubsetName: stable
             canarySubsetName: canary
       steps:
+        - setWeight: 10
+        - pause:
+            duration: 10m
         - setWeight: 20
         - pause: {}
         - setWeight: 40
         - pause:
-            duration: 1m
+            duration: 10m
         - setWeight: 60
         - pause:
-            duration: 1m
+            duration: 10m
         - setWeight: 80
         - pause:
-            duration: 1m
+            duration: 10m
