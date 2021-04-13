@@ -16,7 +16,6 @@ spec:
     metadata:
       labels:
         app: foo
-      annotations: {}
     spec:
       serviceAccountName: foo
       containers:
