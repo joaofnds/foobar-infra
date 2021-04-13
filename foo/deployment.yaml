@@ -7,21 +7,11 @@ metadata:
     app: foo
 
 spec:
+  replicas: 1
+  revisionHistoryLimit: 2
   selector:
     matchLabels:
       app: foo
-  replicas: 5
-  strategy:
-    canary:
-      steps:
-        - setWeight: 20
-        - pause: {}
-        - setWeight: 40
-        - pause: { duration: 1m }
-        - setWeight: 60
-        - pause: { duration: 1m }
-        - setWeight: 80
-        - pause: { duration: 1m }
   template:
     metadata:
       labels:
@@ -53,3 +43,27 @@ spec:
         - name: config
           secret:
             secretName: foo-prod-config
+  strategy:
+    canary:
+      trafficRouting:
+        istio:
+          virtualService:
+            name: foo
+            routes:
+              - primary
+          destinationRule:
+            name: foo
+            stableSubsetName: stable
+            canarySubsetName: canary
+      steps:
+        - setWeight: 20
+        - pause: {}
+        - setWeight: 40
+        - pause:
+            duration: 1m
+        - setWeight: 60
+        - pause:
+            duration: 1m
+        - setWeight: 80
+        - pause:
+            duration: 1m

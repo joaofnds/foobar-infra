@@ -9,6 +9,13 @@ spec:
   hosts:
     - foo
   http:
-    - route:
+    - name: primary
+      route:
         - destination:
             host: foo
+            subset: stable
+          weight: 100
+        - destination:
+            host: foo
+            subset: canary
+          weight: 0
