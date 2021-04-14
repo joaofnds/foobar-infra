@@ -30,7 +30,7 @@ spec:
             - containerPort: 80
           env:
             - name: FOO_SERVICE_URL
-              value: http://foo.foo.svc:80
+              value: http://foo.foo-staging.svc:80
           resources:
             requests:
               memory: "64Mi"
