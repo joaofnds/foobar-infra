@@ -5,3 +5,4 @@ metadata:
   name: foo
   labels:
     app: foo
+    istio-injection: "enabled"

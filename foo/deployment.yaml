@@ -1,5 +1,5 @@
-apiVersion: apps/v1
-kind: Deployment
+apiVersion: argoproj.io/v1alpha1
+kind: Rollout
 
 metadata:
   name: foo
@@ -7,35 +7,15 @@ metadata:
     app: foo
 
 spec:
+  replicas: 1
+  revisionHistoryLimit: 2
   selector:
     matchLabels:
       app: foo
-  replicas: 1
-  strategy:
-    type: RollingUpdate
-    rollingUpdate:
-      maxSurge: 1
-      maxUnavailable: 0
   template:
     metadata:
       labels:
         app: foo
-      annotations:
-        "consul.hashicorp.com/connect-inject": "true"
-        "consul.hashicorp.com/connect-service-upstreams": "postgres-postgresql:5432"
-        "vault.hashicorp.com/agent-inject": "true"
-        "vault.hashicorp.com/agent-inject-status": "update"
-        "vault.hashicorp.com/role": "foo"
-        "vault.hashicorp.com/agent-inject-secret-config.yaml": "database/creds/foo"
-        "vault.hashicorp.com/agent-inject-template-config.yaml": |
-          {{- with secret "database/creds/foo" -}}
-          postgres:
-            host: localhost
-            port: 5432
-            username: {{ .Data.username }}
-            password: {{ .Data.password }}
-            database: foo
-          {{- end }}
     spec:
       serviceAccountName: foo
       containers:
@@ -46,7 +26,7 @@ spec:
             - containerPort: 80
           env:
             - name: CONFIG_PATH
-              value: "/vault/secrets/"
+              value: "/etc/config"
           resources:
             requests:
               memory: "64Mi"
@@ -54,3 +34,48 @@ spec:
             limits:
               memory: "128Mi"
               cpu: "100m"
+          volumeMounts:
+            - mountPath: "/etc/config"
+              name: config
+              readOnly: true
+      volumes:
+        - name: config
+          secret:
+            secretName: foo-prod-config
+  strategy:
+    canary:
+      stableMetadata:
+        labels:
+          version: stable
+      canaryMetadata:
+        labels:
+          version: canary
+      analysis:
+        startingStep: 2
+        templates:
+          - templateName: success-rate
+      trafficRouting:
+        istio:
+          virtualService:
+            name: foo
+            routes:
+              - primary
+          destinationRule:
+            name: foo
+            stableSubsetName: stable
+            canarySubsetName: canary
+      steps:
+        - setWeight: 10
+        - pause:
+            duration: 10m
+        - setWeight: 20
+        - pause: {}
+        - setWeight: 40
+        - pause:
+            duration: 10m
+        - setWeight: 60
+        - pause:
+            duration: 10m
+        - setWeight: 80
+        - pause:
+            duration: 10m
