@@ -3,7 +3,6 @@ kind: VirtualService
 
 metadata:
   name: bar
-  namespace: bar
 
 spec:
   hosts:

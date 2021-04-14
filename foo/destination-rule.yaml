@@ -3,7 +3,6 @@ kind: DestinationRule
 
 metadata:
   name: foo
-  namespace: foo
 
 spec:
   host: foo
