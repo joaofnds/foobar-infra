@@ -18,6 +18,7 @@ spec:
               istio_requests_total{
                 reporter="source",
                 destination_app="foo",
+                destination_service_namespace="foo",
                 destination_version="canary",
                 response_code=~"2.."
               }[1m]
@@ -27,6 +28,7 @@ spec:
               istio_requests_total{
                 reporter="source",
                 destination_app="foo",
+                destination_service_namespace="foo",
                 destination_version="canary"
               }[1m]
             ))
