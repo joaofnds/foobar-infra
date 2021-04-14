@@ -1,0 +1,25 @@
+apiVersion: argoproj.io/v1alpha1
+kind: Application
+
+metadata:
+  name: bar-staging
+
+spec:
+  project: default
+  source:
+    repoURL: "git@github.com:joaofnds/k8s"
+    path: ./bar-staging
+    targetRevision: main
+    directory:
+      recurse: true
+  destination:
+    server: "https://kubernetes.default.svc"
+    namespace: bar-staging
+  syncPolicy:
+    automated:
+      prune: true
+      selfHeal: true
+    syncOptions:
+      - PruneLast=true
+      - CreateNamespace=true
+      - PrunePropagationPolicy=background
