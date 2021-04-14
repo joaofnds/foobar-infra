@@ -2,15 +2,14 @@ apiVersion: argoproj.io/v1alpha1
 kind: Application
 
 metadata:
-  name: bar-app
-  namespace: argocd
+  name: bar
 
 spec:
   project: default
   source:
-    repoURL: "git@github.com:joaofnds/k8s.git"
-    path: bar
-    targetRevision: istio
+    repoURL: "git@github.com:joaofnds/k8s"
+    path: ./bar
+    targetRevision: main
     directory:
       recurse: true
   destination:
@@ -20,3 +19,7 @@ spec:
     automated:
       prune: true
       selfHeal: true
+    syncOptions:
+      - PruneLast=true
+      - CreateNamespace=true
+      - PrunePropagationPolicy=background

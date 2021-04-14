@@ -2,15 +2,14 @@ apiVersion: argoproj.io/v1alpha1
 kind: Application
 
 metadata:
-  name: foo-app
-  namespace: argocd
+  name: foo
 
 spec:
   project: default
   source:
-    repoURL: "git@github.com:joaofnds/k8s.git"
+    repoURL: "git@github.com:joaofnds/k8s"
     path: foo
-    targetRevision: istio
+    targetRevision: main
     directory:
       recurse: true
   destination:
@@ -20,3 +19,7 @@ spec:
     automated:
       prune: true
       selfHeal: true
+    syncOptions:
+      - PruneLast=true
+      - PrunePropagationPolicy=foreground
+      - CreateNamespace=true
