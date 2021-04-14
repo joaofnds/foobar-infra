@@ -17,7 +17,6 @@ spec:
       labels:
         app: foo
     spec:
-      serviceAccountName: foo
       containers:
         - name: foo
           image: "joaofnds/foo:0.1.0"
