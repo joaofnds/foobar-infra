@@ -1,0 +1,81 @@
+apiVersion: argoproj.io/v1alpha1
+kind: Rollout
+
+metadata:
+  name: foo
+  labels:
+    app: foo
+
+spec:
+  replicas: 1
+  revisionHistoryLimit: 2
+  selector:
+    matchLabels:
+      app: foo
+  template:
+    metadata:
+      labels:
+        app: foo
+    spec:
+      serviceAccountName: foo
+      containers:
+        - name: foo
+          image: "joaofnds/foo:0.1.0"
+          imagePullPolicy: Always
+          ports:
+            - containerPort: 80
+          env:
+            - name: CONFIG_PATH
+              value: "/etc/config"
+          resources:
+            requests:
+              memory: "64Mi"
+              cpu: "50m"
+            limits:
+              memory: "128Mi"
+              cpu: "100m"
+          volumeMounts:
+            - mountPath: "/etc/config"
+              name: config
+              readOnly: true
+      volumes:
+        - name: config
+          secret:
+            secretName: foo-prod-config
+  strategy:
+    canary:
+      stableMetadata:
+        labels:
+          version: stable
+      canaryMetadata:
+        labels:
+          version: canary
+      analysis:
+        startingStep: 2
+        templates:
+          - templateName: success-rate
+      trafficRouting:
+        istio:
+          virtualService:
+            name: foo
+            routes:
+              - primary
+          destinationRule:
+            name: foo
+            stableSubsetName: stable
+            canarySubsetName: canary
+      steps:
+        - setWeight: 10
+        - pause:
+            duration: 10m
+        - setWeight: 20
+        - pause: {}
+        - setWeight: 40
+        - pause:
+            duration: 10m
+        - setWeight: 60
+        - pause:
+            duration: 10m
+        - setWeight: 80
+        - pause:
+            duration: 10m
