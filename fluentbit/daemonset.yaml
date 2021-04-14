@@ -41,6 +41,9 @@ spec:
             - name: varlibdockercontainers
               mountPath: /var/lib/docker/containers
               readOnly: true
+            - name: journal
+              mountPath: /journal
+              readOnly: true
             - name: fluent-bit-config
               mountPath: /fluent-bit/etc/
       terminationGracePeriodSeconds: 10
@@ -51,6 +54,9 @@ spec:
         - name: varlibdockercontainers
           hostPath:
             path: /var/lib/docker/containers
+        - name: journal
+          hostPath:
+            path: /var/log/journal
         - name: fluent-bit-config
           configMap:
             name: fluent-bit-config
