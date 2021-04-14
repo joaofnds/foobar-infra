@@ -40,7 +40,7 @@ spec:
       volumes:
         - name: config
           secret:
-            secretName: foo-prod-config
+            secretName: foo-staging-config
   strategy:
     canary:
       stableMetadata:
