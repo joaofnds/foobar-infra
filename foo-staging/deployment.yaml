@@ -66,15 +66,15 @@ spec:
       steps:
         - setWeight: 10
         - pause:
-            duration: 10m
+            duration: 1m
         - setWeight: 20
         - pause: {}
         - setWeight: 40
         - pause:
-            duration: 10m
+            duration: 1m
         - setWeight: 60
         - pause:
-            duration: 10m
+            duration: 1m
         - setWeight: 80
         - pause:
-            duration: 10m
+            duration: 1m
