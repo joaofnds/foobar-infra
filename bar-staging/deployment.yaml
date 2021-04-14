@@ -1,0 +1,40 @@
+apiVersion: apps/v1
+kind: Deployment
+
+metadata:
+  name: bar
+  labels:
+    app: bar
+
+spec:
+  selector:
+    matchLabels:
+      app: bar
+  replicas: 1
+  strategy:
+    type: RollingUpdate
+    rollingUpdate:
+      maxSurge: 1
+      maxUnavailable: 0
+  template:
+    metadata:
+      labels:
+        app: bar
+      annotations: {}
+    spec:
+      containers:
+        - name: bar
+          image: "joaofnds/bar:0.1.1"
+          imagePullPolicy: Always
+          ports:
+            - containerPort: 80
+          env:
+            - name: FOO_SERVICE_URL
+              value: http://foo.foo.svc:80
+          resources:
+            requests:
+              memory: "64Mi"
+              cpu: "50m"
+            limits:
+              memory: "128Mi"
+              cpu: "100m"
