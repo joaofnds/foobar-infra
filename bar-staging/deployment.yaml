@@ -1,5 +1,5 @@
-apiVersion: apps/v1
-kind: Deployment
+apiVersion: argoproj.io/v1alpha1
+kind: Rollout
 
 metadata:
   name: bar
@@ -7,15 +7,11 @@ metadata:
     app: bar
 
 spec:
+  replicas: 1
+  revisionHistoryLimit: 2
   selector:
     matchLabels:
       app: bar
-  replicas: 1
-  strategy:
-    type: RollingUpdate
-    rollingUpdate:
-      maxSurge: 1
-      maxUnavailable: 0
   template:
     metadata:
       labels:
@@ -38,3 +34,40 @@ spec:
             limits:
               memory: "128Mi"
               cpu: "100m"
+  strategy:
+    canary:
+      stableMetadata:
+        labels:
+          version: stable
+      canaryMetadata:
+        labels:
+          version: canary
+      analysis:
+        startingStep: 2
+        templates:
+          - templateName: success-rate
+      trafficRouting:
+        istio:
+          virtualService:
+            name: bar
+            routes:
+              - primary
+          destinationRule:
+            name: bar
+            stableSubsetName: stable
+            canarySubsetName: canary
+      steps:
+        - setWeight: 10
+        - pause:
+            duration: 1m
+        - setWeight: 20
+        - pause: {}
+        - setWeight: 40
+        - pause:
+            duration: 1m
+        - setWeight: 60
+        - pause:
+            duration: 1m
+        - setWeight: 80
+        - pause:
+            duration: 1m
