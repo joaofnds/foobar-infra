@@ -19,13 +19,15 @@ spec:
     spec:
       containers:
         - name: foo
-          image: "joaofnds/foo:0.1.0"
+          image: "joaofnds/foo:0.2.0-dev.1"
           imagePullPolicy: Always
           ports:
             - containerPort: 80
           env:
             - name: CONFIG_PATH
               value: "/etc/config"
+            - name: JAEGER_ENDPOINT
+              value: zipkin.istio-system:9411
           resources:
             requests:
               memory: "64Mi"
