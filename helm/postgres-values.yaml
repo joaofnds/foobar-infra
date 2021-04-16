@@ -1,0 +1,16 @@
+global:
+  postgresql:
+    postgresqlDatabase: foo
+    postgresqlUsername: postgres
+    postgresqlPassword: postgres
+
+primary:
+  podAnnotations:
+    "consul.hashicorp.com/connect-inject": "true"
+
+readReplicas:
+  podAnnotations:
+    "consul.hashicorp.com/connect-inject": "true"
+
+metrics:
+  enabled: true
