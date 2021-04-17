@@ -26,8 +26,6 @@ spec:
           env:
             - name: CONFIG_PATH
               value: "/etc/config"
-            - name: JAEGER_ENDPOINT
-              value: zipkin.istio-system:9411
           resources:
             requests:
               memory: "64Mi"
