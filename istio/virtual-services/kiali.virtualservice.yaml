@@ -1,0 +1,16 @@
+apiVersion: networking.istio.io/v1alpha3
+kind: VirtualService
+metadata:
+  name: kiali-virtual-service
+  namespace: istio-system
+spec:
+  hosts:
+    - "kiali.desk.com"
+  gateways:
+    - istio-gateway
+  http:
+    - route:
+        - destination:
+            host: kiali
+            port:
+              number: 20001

@@ -1,0 +1,16 @@
+apiVersion: networking.istio.io/v1alpha3
+kind: VirtualService
+metadata:
+  name: kibana-virtual-service
+  namespace: monitoring
+spec:
+  hosts:
+    - "kibana.desk.com"
+  gateways:
+    - monitoring-gateway
+  http:
+    - route:
+        - destination:
+            host: elasticsearch-kibana
+            port:
+              number: 5601

@@ -1,17 +1,16 @@
 apiVersion: monitoring.coreos.com/v1
 kind: PodMonitor
-
 metadata:
   name: envoy-stats-monitor
-  namespace: istio-system
+  namespace: monitoring
   labels:
     monitoring: istio-proxies
-    release: helm
-
+    release: prometheus
 spec:
   selector:
     matchExpressions:
-      - { key: istio-prometheus-ignore, operator: DoesNotExist }
+      - key: istio-prometheus-ignore
+        operator: DoesNotExist
   namespaceSelector:
     any: true
   jobLabel: envoy-stats
@@ -42,22 +41,24 @@ spec:
 ---
 apiVersion: monitoring.coreos.com/v1
 kind: ServiceMonitor
-
 metadata:
   name: istio-component-monitor
   namespace: istio-system
   labels:
-    monitoring: istio-components
-    release: helm
-
+    monitoring: monitoring
+    release: prometheus
 spec:
   jobLabel: istio
   targetLabels: [app]
   selector:
     matchExpressions:
-      - { key: istio, operator: In, values: [pilot] }
+      - key: istio
+        operator: In
+        values: [pilot]
   namespaceSelector:
     any: true
   endpoints:
     - port: http-monitoring
+      interval: 15s
+    - port: http-policy-monitoring
       interval: 15s

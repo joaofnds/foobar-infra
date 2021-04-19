@@ -14,9 +14,9 @@ spec:
       app: bar
   template:
     metadata:
+      annotations: {}
       labels:
         app: bar
-      annotations: {}
     spec:
       containers:
         - name: bar

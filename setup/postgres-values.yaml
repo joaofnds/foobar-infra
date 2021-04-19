@@ -1,0 +1,8 @@
+global:
+  postgresql:
+    postgresqlDatabase: ""
+    postgresqlUsername: ""
+    postgresqlPassword: ""
+
+metrics:
+  enabled: true

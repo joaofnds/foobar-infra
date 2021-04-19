@@ -1,0 +1,6 @@
+nameOverride: "prometheus"
+namespaceOverride: "monitoring"
+
+grafana:
+  enabled: true
+  adminPassword: ""

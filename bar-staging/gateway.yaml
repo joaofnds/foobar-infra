@@ -1,0 +1,30 @@
+apiVersion: networking.istio.io/v1alpha3
+kind: Gateway
+metadata:
+  name: bar-gateway
+  namespace: bar-staging
+spec:
+  selector:
+    istio: ingressgateway
+  servers:
+    - port:
+        number: 80
+        name: http
+        protocol: HTTP
+      hosts:
+        - "bar-staging.desk.com"
+---
+apiVersion: networking.istio.io/v1alpha3
+kind: VirtualService
+metadata:
+  name: bar-virtual-service
+  namespace: bar-staging
+spec:
+  hosts:
+    - "bar-staging.desk.com"
+  gateways:
+    - bar-gateway
+  http:
+    - route:
+        - destination:
+            host: bar
