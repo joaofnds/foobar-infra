@@ -12,7 +12,7 @@ spec:
       failureLimit: 3
       provider:
         prometheus:
-          address: "http://prometheus-prometheus.monitoring.svc:9090"
+          address: "http://prometheus-kube-prometheus-prometheus.monitoring.svc:9090"
           query: |
             sum(irate(
               istio_requests_total{
