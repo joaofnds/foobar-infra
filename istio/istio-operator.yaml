@@ -7,3 +7,17 @@ metadata:
 
 spec:
   profile: default
+  meshConfig:
+    defaultConfig:
+      tracing:
+        zipkin:
+          address: "jaeger-collector.monitoring:9411"
+    enablePrometheusMerge: true
+
+values:
+  global:
+    proxy:
+      tracer: "zipkin"
+    tracer:
+      zipkin:
+        address: "jaeger-collector.monitoring:9411"
