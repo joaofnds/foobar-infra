@@ -482,7 +482,7 @@ spec:
 #        insecure_skip_verify: false
         password: "CHANGEME"
 #        token: ""
-#        type: "none"
+        type: "basic"
 #        use_kiali_token: false
         username: "CHANGEME"
 #      dashboards:
