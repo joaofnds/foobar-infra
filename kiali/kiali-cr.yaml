@@ -477,14 +477,14 @@ spec:
 #      This URL can contain query parameters if needed, such as "?orgId=1".
 #    ---
     grafana:
-#      auth:
+      auth:
 #        ca_file: ""
 #        insecure_skip_verify: false
-#        password: ""
+        password: "CHANGEME"
 #        token: ""
 #        type: "none"
 #        use_kiali_token: false
-#        username: ""
+        username: "CHANGEME"
 #      dashboards:
 #      - name: "Istio Service Dashboard"
 #        variables:
@@ -619,7 +619,7 @@ spec:
 #        type: "none"
 #        use_kiali_token: false
 #        username: ""
-#      enabled: true
+      enabled: true
 #      health_check_url: ""
       in_cluster_url: "http://jaeger-query.monitoring.svc:16686"
 #      is_core: false
