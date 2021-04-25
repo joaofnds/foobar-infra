@@ -55,3 +55,8 @@ kubectl apply -n argo-rollouts -f https://raw.githubusercontent.com/argoproj/arg
 kubectl create ns postgres
 helm repo add bitnami https://charts.bitnami.com/bitnami
 helm install -n postgres postgres bitnami/postgresql --values postgres-values.yaml
+
+# sealed secrets
+kubectl create ns sealed-secrets
+helm repo add sealed-secrets https://bitnami-labs.github.io/sealed-secrets
+helm install -n sealed-secrets sealed-secrets sealed-secrets/sealed-secrets
