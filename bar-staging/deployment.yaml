@@ -20,7 +20,7 @@ spec:
     spec:
       containers:
         - name: bar
-          image: "joaofnds/bar:0.2.0-dev.5"
+          image: "joaofnds/bar:0.3.0-dev.2"
           imagePullPolicy: Always
           ports:
             - containerPort: 80
