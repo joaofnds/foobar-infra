@@ -41,8 +41,8 @@ helm install \
 kubectl apply -n istio-system -f ../kiali/kiali-cr.yaml
 
 # argo cd
-kubectl create ns argocd
-kubectl apply -n argocd -f https://raw.githubusercontent.com/argoproj/argo-cd/stable/manifests/install.yaml
+kubectl create namespace argocd
+kubectl apply -n argocd -f https://raw.githubusercontent.com/argoproj/argo-cd/v2.0.4/manifests/ha/install.yaml
 
 # argo rollouts
 # helm repo add argo https://argoproj.github.io/argo-helm
