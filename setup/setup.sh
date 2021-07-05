@@ -48,8 +48,9 @@ kubectl apply -n argocd -f https://raw.githubusercontent.com/argoproj/argo-cd/v2
 # helm repo add argo https://argoproj.github.io/argo-helm
 # helm install -n argocd argo-rollouts argo/argo-rollouts
 # or from master
-kubectl create ns argo-rollouts
-kubectl apply -n argo-rollouts -f https://raw.githubusercontent.com/argoproj/argo-rollouts/master/manifests/install.yaml
+kubectl create namespace argo-rollouts
+kubectl apply -n argo-rollouts -f https://github.com/argoproj/argo-rollouts/releases/download/v1.0.2/install.yaml
+
 
 # postgres
 kubectl create ns postgres
