@@ -6,22 +6,18 @@ helm repo add prometheus-community https://prometheus-community.github.io/helm-c
 helm install -n monitoring prometheus prometheus-community/kube-prometheus-stack
 
 # istio
-asdf plugin-add istioctl
-asdf install istioctl 1.9.3
-asdf global istioctl 1.9.3
 istioctl operator init
 
 kubectl create ns istio-system
 kubectl apply -f ../istio/istio-operator.yaml
-
 kubectl label namespace default istio-injection=enabled
+
+# fluent bit
+kubectl apply -n monitoring -f ../fluentbit
 
 # elastic
 helm repo add bitnami https://charts.bitnami.com/bitnami
 helm install -n monitoring elasticsearch bitnami/elasticsearch --values elastic-values.yaml
-
-# fluent bit
-kubectl apply -n monitoring -f ../fluentbit
 
 # jaeger
 helm repo add jaegertracing https://jaegertracing.github.io/helm-charts
@@ -30,26 +26,25 @@ kubectl apply -f ../jaeger/jaeger-cr.yaml
 
 # kiali
 kubectl create namespace kiali-operator
+helm repo add kiali https://kiali.org/helm-charts
 helm install \
     --set cr.create=true \
     --set cr.namespace=istio-system \
     --namespace kiali-operator \
-    --repo https://kiali.org/helm-charts \
     kiali-operator \
-    kiali-operator
+    kiali/kiali-operator
 
 kubectl apply -n istio-system -f ../kiali/kiali-cr.yaml
 
 # argo cd
 kubectl create namespace argocd
-kubectl apply -n argocd -f https://raw.githubusercontent.com/argoproj/argo-cd/v2.0.4/manifests/ha/install.yaml
+kubectl apply -n argocd -f https://raw.githubusercontent.com/argoproj/argo-cd/stable/manifests/install.yaml
+# get secret
+# kubectl -n argocd get secret argocd-initial-admin-secret -o jsonpath="{.data.password}" | base64 -d
 
 # argo rollouts
-# helm repo add argo https://argoproj.github.io/argo-helm
-# helm install -n argocd argo-rollouts argo/argo-rollouts
-# or from master
 kubectl create namespace argo-rollouts
-kubectl apply -n argo-rollouts -f https://github.com/argoproj/argo-rollouts/releases/download/v1.0.2/install.yaml
+kubectl apply -n argo-rollouts -f https://github.com/argoproj/argo-rollouts/releases/latest/download/install.yaml
 
 
 # postgres
@@ -60,4 +55,11 @@ helm install -n postgres postgres bitnami/postgresql --values postgres-values.ya
 # sealed secrets
 kubectl create ns sealed-secrets
 helm repo add sealed-secrets https://bitnami-labs.github.io/sealed-secrets
-helm install -n sealed-secrets sealed-secrets sealed-secrets/sealed-secrets
+helm install -n kube-system sealed-secrets sealed-secrets/sealed-secrets
+# kubectl create secret generic foo-config -n foo-staging --dry-run=client --from-file=config.yaml -o json | kubeseal --controller-name sealed-secrets
+
+
+
+# kubectl create secret generic foo-config -n foo-staging --dry-run=client --from-file=config.yaml -o json |
+#   kubeseal --controller-name sealed-secrets |
+#   kubectl apply -f -
