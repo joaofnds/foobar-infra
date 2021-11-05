@@ -135,7 +135,7 @@ spec:
 #  configurations for this strategy. See below for the additional OpenID configuration section.
 # When empty, its value will default to "openshift" on OpenShift and "token" on Kubernetes.
 #    ---
-    strategy: ""
+    strategy: "anonymous"
 #
 # To learn how to configure the OpenId authentication strategy, read the documentation
 # at the website on https://kiali.io/documentation/latest/configuration/authentication/openid/
