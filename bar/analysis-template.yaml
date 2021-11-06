@@ -1,0 +1,34 @@
+apiVersion: argoproj.io/v1alpha1
+kind: AnalysisTemplate
+
+metadata:
+  name: success-rate
+
+spec:
+  metrics:
+    - name: success-rate
+      interval: 1m
+      successCondition: result[0] >= 0.95
+      failureLimit: 3
+      provider:
+        prometheus:
+          address: "http://prometheus-kube-prometheus-prometheus.monitoring.svc:9090"
+          query: |
+            sum(irate(
+              istio_requests_total{
+                reporter="source",
+                destination_app="bar",
+                destination_service_namespace="bar",
+                destination_version="canary",
+                response_code=~"2.."
+              }[1m]
+            ))
+            /
+            sum(irate(
+              istio_requests_total{
+                reporter="source",
+                destination_app="bar",
+                destination_service_namespace="bar",
+                destination_version="canary"
+              }[1m]
+            ))

@@ -1,5 +1,5 @@
-apiVersion: apps/v1
-kind: Deployment
+apiVersion: argoproj.io/v1alpha1
+kind: Rollout
 
 metadata:
   name: bar
@@ -7,30 +7,28 @@ metadata:
     app: bar
 
 spec:
+  replicas: 1
+  revisionHistoryLimit: 2
   selector:
     matchLabels:
       app: bar
-  replicas: 1
-  strategy:
-    type: RollingUpdate
-    rollingUpdate:
-      maxSurge: 1
-      maxUnavailable: 0
   template:
     metadata:
+      annotations: {}
       labels:
         app: bar
-      annotations: {}
     spec:
       containers:
         - name: bar
-          image: "joaofnds/bar:0.1.1"
+          image: "joaofnds/bar:0.2.0"
           imagePullPolicy: Always
           ports:
             - containerPort: 80
           env:
             - name: FOO_SERVICE_URL
               value: http://foo.foo.svc:80
+            - name: JAEGER_COLLECTOR_ENDPOINT
+              value: http://jaeger-collector.monitoring.svc:14268/api/traces
           resources:
             requests:
               memory: "64Mi"
@@ -38,3 +36,40 @@ spec:
             limits:
               memory: "128Mi"
               cpu: "100m"
+  strategy:
+    canary:
+      stableMetadata:
+        labels:
+          version: stable
+      canaryMetadata:
+        labels:
+          version: canary
+      analysis:
+        startingStep: 2
+        templates:
+          - templateName: success-rate
+      trafficRouting:
+        istio:
+          virtualService:
+            name: bar
+            routes:
+              - primary
+          destinationRule:
+            name: bar
+            stableSubsetName: stable
+            canarySubsetName: canary
+      steps:
+        - setWeight: 10
+        - pause:
+            duration: 1m
+        - setWeight: 20
+        - pause: {}
+        - setWeight: 40
+        - pause:
+            duration: 1m
+        - setWeight: 60
+        - pause:
+            duration: 1m
+        - setWeight: 80
+        - pause:
+            duration: 1m
