@@ -3,13 +3,14 @@ kind: Application
 
 metadata:
   name: foo
+  namespace: argocd
 
 spec:
   project: default
   source:
     repoURL: "git@github.com:joaofnds/k8s"
-    path: foo
-    targetRevision: main
+    targetRevision: HEAD
+    path: ./foo
     directory:
       recurse: true
   destination:
@@ -20,5 +21,5 @@ spec:
       prune: true
     syncOptions:
       - PruneLast=true
-      - PrunePropagationPolicy=foreground
       - CreateNamespace=true
+      - PrunePropagationPolicy=background

@@ -3,13 +3,14 @@ kind: Application
 
 metadata:
   name: bar-staging
+  namespace: argocd
 
 spec:
   project: default
   source:
     repoURL: "git@github.com:joaofnds/k8s"
+    targetRevision: HEAD
     path: ./bar-staging
-    targetRevision: main
     directory:
       recurse: true
   destination:
