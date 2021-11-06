@@ -8,7 +8,6 @@ helm install -n monitoring prometheus prometheus-community/kube-prometheus-stack
 # istio
 istioctl operator init
 
-kubectl create ns istio-system
 kubectl apply -f ../istio/istio-operator.yaml
 kubectl label namespace default istio-injection=enabled
 
