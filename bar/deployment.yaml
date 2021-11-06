@@ -20,7 +20,7 @@ spec:
     spec:
       containers:
         - name: bar
-          image: "joaofnds/bar:0.2.0"
+          image: "ghcr.io/joaofnds/bar:b1c2f71"
           imagePullPolicy: Always
           ports:
             - containerPort: 80
