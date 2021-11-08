@@ -621,11 +621,11 @@ spec:
 #        username: ""
       enabled: true
 #      health_check_url: ""
-      in_cluster_url: "http://jaeger-query.monitoring.svc:16686"
+      in_cluster_url: "http://jaeger-query.monitoring.svc:16685"
 #      is_core: false
 #      namespace_selector: true
       url: "http://jaeger.desk.com"
-#      #use_grpc:
+      use_grpc: true
 #      whitelist_istio_system: ["jaeger-query", "istio-ingressgateway"]
 
 ##########
