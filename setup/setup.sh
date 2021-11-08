@@ -54,7 +54,7 @@ helm install -n postgres postgres bitnami/postgresql --values postgres-values.ya
 # sealed secrets
 kubectl create ns sealed-secrets
 helm repo add sealed-secrets https://bitnami-labs.github.io/sealed-secrets
-helm install -n kube-system sealed-secrets sealed-secrets/sealed-secrets
+helm install -n kube-system sealed-secrets sealed-secrets/sealed-secrets --set 'commandArgs[0]=--update-status'
 # kubectl create secret generic foo-config -n foo-staging --dry-run=client --from-file=config.yaml -o json | kubeseal --controller-name sealed-secrets
 
 
