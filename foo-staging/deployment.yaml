@@ -43,6 +43,12 @@ spec:
             secretName: foo-config
   strategy:
     canary:
+      stableMetadata:
+        labels:
+          role: stable
+      canaryMetadata:
+        labels:
+          role: canary
       analysis:
         startingStep: 2
         templates:

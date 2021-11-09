@@ -19,7 +19,7 @@ spec:
                 reporter="source",
                 destination_app="foo",
                 destination_service_namespace="foo-staging",
-                destination_canonical_revision="latest",
+                destination_role="canary",
                 response_code=~"2.."
               }[1m]
             ))
@@ -29,6 +29,6 @@ spec:
                 reporter="source",
                 destination_app="foo",
                 destination_service_namespace="foo-staging",
-                destination_canonical_revision="latest",
+                destination_role="canary"
               }[1m]
             ))
