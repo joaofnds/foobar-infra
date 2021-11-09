@@ -38,12 +38,6 @@ spec:
               cpu: "100m"
   strategy:
     canary:
-      stableMetadata:
-        labels:
-          version: stable
-      canaryMetadata:
-        labels:
-          version: canary
       analysis:
         startingStep: 2
         templates:
