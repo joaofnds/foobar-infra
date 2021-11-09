@@ -45,10 +45,10 @@ spec:
     canary:
       stableMetadata:
         labels:
-          role: stable
+          version: stable
       canaryMetadata:
         labels:
-          role: canary
+          version: canary
       analysis:
         startingStep: 2
         templates:
