@@ -46,11 +46,9 @@ spec:
       stableMetadata:
         labels:
           version: stable
-          service.istio.io/canonical-revision: stable
       canaryMetadata:
         labels:
           version: canary
-          service.istio.io/canonical-revision: canary
       analysis:
         startingStep: 2
         templates:
