@@ -1,7 +1,7 @@
 apiVersion: argoproj.io/v1alpha1
 kind: Rollout
 metadata:
-  name: foo
+  name: 1.2.3
   labels:
     app: foo
 spec:
