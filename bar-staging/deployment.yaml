@@ -12,7 +12,6 @@ spec:
       app: bar
   template:
     metadata:
-      annotations: {}
       labels:
         app: bar
     spec:
