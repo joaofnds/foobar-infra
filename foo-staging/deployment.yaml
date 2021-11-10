@@ -17,7 +17,7 @@ spec:
     spec:
       containers:
         - name: foo
-          image: ghcr.io/joaofnds/foo:1.2.3
+          image: "joaofnds/foo:0.2.0-dev.9"
           imagePullPolicy: Always
           ports:
             - containerPort: 80
