@@ -1,11 +1,9 @@
 apiVersion: argoproj.io/v1alpha1
 kind: Rollout
-
 metadata:
   name: bar
   labels:
     app: bar
-
 spec:
   replicas: 1
   revisionHistoryLimit: 2
@@ -20,7 +18,7 @@ spec:
     spec:
       containers:
         - name: bar
-          image: "joaofnds/bar:0.3.0-dev.2"
+          image: ghcr.io/joaofnds/bar:0.4.0
           imagePullPolicy: Always
           ports:
             - containerPort: 80
@@ -31,11 +29,11 @@ spec:
               value: http://jaeger-collector.monitoring.svc:14268/api/traces
           resources:
             requests:
-              memory: "64Mi"
-              cpu: "50m"
+              memory: 64Mi
+              cpu: 50m
             limits:
-              memory: "128Mi"
-              cpu: "100m"
+              memory: 128Mi
+              cpu: 100m
   strategy:
     canary:
       stableMetadata:
