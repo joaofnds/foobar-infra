@@ -3,10 +3,12 @@
 # Boostrap
 
 1.  Setup a Kubernetes cluster
-I highly recommend [K3D](https://k3d.io/)
+
+  I highly recommend [K3D](https://k3d.io/)
 
 2.  Run each line of [setup.sh](setup/setup.sh)
-Try to understand each command and the files they reference
+
+  Try to understand each command and the files they reference
 
 # Tools
 
