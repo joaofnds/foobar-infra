@@ -1,0 +1,30 @@
+#+TITLE: Pipe
+
+#+CAPTION: Infrastructure and Dev process
+[[file:./infra.png]]
+
+* Boostrap
+1. Setup a Kubernetes cluster
+    I highly recommend [[https://k3d.io/][K3D]]
+
+2. Run each line of [[file:setup/setup.sh][setup.sh]] asdf
+    Try to understand each command and the files they reference
+
+* Tools
+- [[https://kubernetes.io/][Kubernetes]]
+- [[https://git-scm.com/][Git]]
+- [[https://github.com/][GitHub]]
+- [[https://github.com/features/actions][GitHub Actions]]
+- [[https://argoproj.github.io/cd/][Argo CD]]
+- [[https://argoproj.github.io/rollouts/][Argo Rollouts]]
+- [[https://prometheus.io/][Prometheus]]
+- [[https://www.elastic.co/elasticsearch/][Elasticsearch]]
+- [[https://www.elastic.co/kibana/][Kibana]]
+- [[https://istio.io/][Istio]]
+- [[https://kiali.io/][Kiali]]
+- [[https://grafana.com/][Grafana]]
+- [[https://github.com/semantic-release/semantic-release][semantic-release]]
+
+* Techniques
+- [[https://continuousdelivery.com/][Continuous Delivery]]
+- [[https://www.weave.works/technologies/gitops/][GitOps]]
